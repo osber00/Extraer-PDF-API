@@ -1,0 +1,19 @@
+{
+  "name": "pdf-extractor-api",
+  "version": "1.0.0",
+  "description": "API para extraer texto de PDFs - Compatible con n8n",
+  "main": "api/extract-pdf.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "pdf-parse": "^1.1.1"
+  },
+  "engines": {
+    "node": ">=18.x"
+  },
+  "keywords": ["pdf", "text-extraction", "n8n", "api"],
+  "author": "Oscar Bertel Peralta",
+  "license": "MIT"
+}
