@@ -24,18 +24,40 @@ export default async function handler(req, res) {
     if (!req.body || !req.body.pdf) {
       return res.status(400).json({ 
         error: 'Bad request',
-        message: 'PDF data is required in body.pdf field' 
+        message: 'PDF data is required in body.pdf field',
+        receivedKeys: Object.keys(req.body || {}),
+        receivedBody: req.body ? JSON.stringify(req.body).substring(0, 200) + '...' : 'null'
       });
     }
 
     // Convertir base64 a buffer
-    const buffer = Buffer.from(req.body.pdf, 'base64');
+    let buffer;
+    try {
+      buffer = Buffer.from(req.body.pdf, 'base64');
+    } catch (base64Error) {
+      return res.status(400).json({ 
+        error: 'Base64 decode error',
+        message: 'Invalid base64 data',
+        details: base64Error.message
+      });
+    }
     
     // Validar que el buffer no esté vacío
     if (buffer.length === 0) {
       return res.status(400).json({ 
         error: 'Bad request',
         message: 'PDF data appears to be empty' 
+      });
+    }
+
+    // Verificar que los primeros bytes sean de un PDF
+    const pdfHeader = buffer.toString('ascii', 0, 4);
+    if (pdfHeader !== '%PDF') {
+      return res.status(400).json({ 
+        error: 'Invalid PDF format',
+        message: 'File does not appear to be a valid PDF',
+        receivedHeader: buffer.toString('hex', 0, 10),
+        expectedHeader: '%PDF'
       });
     }
 
