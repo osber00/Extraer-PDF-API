@@ -8,12 +8,13 @@
     "deploy": "vercel --prod"
   },
   "dependencies": {
-    "pdf-parse": "^1.1.1"
+    "pdf-parse": "^1.1.1",
+    "mammoth": "^1.6.0"
   },
   "engines": {
     "node": ">=18.x"
   },
   "keywords": ["pdf", "text-extraction", "n8n", "api"],
-  "author": "Oscar Bertel Peralta",
+  "author": "Tu nombre",
   "license": "MIT"
 }
